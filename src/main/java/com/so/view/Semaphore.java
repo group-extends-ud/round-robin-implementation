@@ -29,11 +29,7 @@ public class Semaphore extends JPanel {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         Shape circleShape = new Ellipse2D.Double(0, 0, getWidth() - 10, getHeight() - 10);
-        if(isActive){
-            g2d.setColor(Color.GREEN);
-        }else{
-            g2d.setColor(Color.RED);
-        }
+        g2d.setColor(isActive? Color.GREEN : Color.RED);
         g2d.fill(circleShape);
         g2d.draw(circleShape);
     }

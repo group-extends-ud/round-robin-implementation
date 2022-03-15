@@ -1,5 +1,4 @@
 #!/bin/bash
-export JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
 
 mvn clean
 
@@ -9,4 +8,4 @@ mvn install
 
 clear
 
-java -cp target/round-robin-1.0-SNAPSHOT.jar com.so.App
+java -jar target/round-robin-1.0.0.jar

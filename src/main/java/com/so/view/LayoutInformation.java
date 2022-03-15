@@ -18,7 +18,6 @@ public class LayoutInformation extends JPanel {
     public LayoutInformation(int width,int height){
 
         setLayout(null);
-
         setSize(width,height);
         initComponents();
     }

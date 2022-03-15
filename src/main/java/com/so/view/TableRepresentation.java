@@ -1,27 +1,27 @@
 package com.so.view;
 
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
+import java.awt.Dimension;
 
 public class TableRepresentation extends JPanel {
 
     private JTable table;
+    private Dimension sizeTable;
+    private String[][] information;
+    private String[] columns;
 
     public TableRepresentation(String[][] rows, String[] columns, int width, int height) {
-
-        setLayout(null);
-
-        setSize(width, height);
-        initTemplate(rows, columns);
+        this.information = rows;
+        this.columns = columns;
+        this.sizeTable = new Dimension(width,height);
+        initTemplate();
     }
 
-    private void initComponents(String[][] rows, String[] colums) {
-        table = new JTable(rows, colums);
+    private void initComponents() {
+        table = new JTable(information, columns);
         table.setSize(getWidth(), getHeight());
         table.setLocation(0, 0);
         TableColumn column;
@@ -36,11 +36,19 @@ public class TableRepresentation extends JPanel {
         jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(jsp);
         jsp.updateUI();
-
     }
 
-    public void initTemplate(String[][] rows, String[] colums) {
-        initComponents(rows, colums);
+    public void initTemplate() {
+        setLayout(null);
+        setSize(sizeTable);
+        initComponents();
+    }
+
+    public void setInformation(String[][] information){
+        this.information = information;
+        this.removeAll();
+        this.initTemplate();
+        this.repaint();
     }
 
 }

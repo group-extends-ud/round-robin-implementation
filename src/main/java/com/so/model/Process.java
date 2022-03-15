@@ -8,5 +8,7 @@ import lombok.ToString;
 public class Process {
 
     private String name;
+
+    private Integer incommingTime, jobTime, waitingTime, turnaroundTime, endTime;
     
 }

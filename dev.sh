@@ -8,6 +8,4 @@ mvn install
 
 clear
 
-cd target
-
-java -cp round-robin-1.0-SNAPSHOT.jar com.so.App
+java -cp target/round-robin-1.0-SNAPSHOT.jar com.so.App

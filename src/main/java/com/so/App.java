@@ -1,10 +1,7 @@
 package com.so;
 
 import com.so.model.Process;
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
     public static void main( String[] args )

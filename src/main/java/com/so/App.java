@@ -1,13 +1,12 @@
 package com.so;
 
-import com.so.model.Process;
+import com.so.view.Menu;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        Process process = new Process();
-        process.setName("Sregio");
-        System.out.println(process);
+        Menu menu = new Menu();
+        menu.initTemplate();
     }
 }

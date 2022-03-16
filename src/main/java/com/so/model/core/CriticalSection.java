@@ -9,6 +9,7 @@ public class CriticalSection {
     private List<Process> queueProcess;
     private Process currentProcess;
     private static CriticalSection instance;
+    private Integer indexCurrentProcess = 0;
 
     private CriticalSection(){
         this.queueProcess = new ArrayList<>();
@@ -33,15 +34,22 @@ public class CriticalSection {
     public Boolean isQueueEmptyBoolean() {
         return queueProcess.isEmpty();
     }
+    
+    public void setIndexCurrentProcess(Integer indexCurrentProcess){
+        this.indexCurrentProcess = indexCurrentProcess;
+    }
+
+    public Integer getIndexCurrentProcess(){
+        return indexCurrentProcess;
+    }
 
     public void addProcess(Process process){
         queueProcess.add(process);
     }
 
     public void setProcessInCriticalSection() {
-        System.out.println(queueProcess);
         try {
-            currentProcess = queueProcess.remove(0);
+            currentProcess = queueProcess.get(indexCurrentProcess);
         } catch (Exception e) {
             System.out.println("No hay procesos en la cola");
         }

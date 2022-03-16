@@ -6,6 +6,8 @@ import com.so.model.core.CriticalSection;
 import com.so.model.core.Process;
 import com.so.util.Constants;
 
+import java.util.Objects;
+
 public class RoundRobinResolver extends AlgorithmResolver {
 
     @Override
@@ -23,8 +25,12 @@ public class RoundRobinResolver extends AlgorithmResolver {
                                 .getEndTime());
         currentProcess.setEndTime(currentProcess.getStartTime() + currentProcess.getBurst());
         currentProcess.setTurnaroundTime(currentProcess.getEndTime() - currentProcess.getIncommingTime());
-        currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - currentProcess.getBurst());
-        
+
+        Integer burstExecuted = (Objects.isNull(currentProcess.getDisplayJobExecuted()))
+            ?currentProcess.getBurst()
+            :currentProcess.getDisplayJobExecuted();
+
+        currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - burstExecuted);
         criticalSection.setIndexCurrentProcess(criticalSection.getIndexCurrentProcess()+1);
     }
 
@@ -46,8 +52,10 @@ public class RoundRobinResolver extends AlgorithmResolver {
                     remanentProcess.setIncommingTime(currentProcess.getIncommingTime());
 
                     Integer totalBurstProcess = currentProcess.getBurst();
-                    currentProcess.setBurst(Math.abs(currentProcess.getBurst() - Constants.quantum));
-                    remanentProcess.setBurst(totalBurstProcess - currentProcess.getBurst());
+                    currentProcess.setBurst(Constants.quantum);
+                    remanentProcess.setBurst(Math.abs(Constants.quantum - totalBurstProcess));
+                    //remanentProcess.setBurst(totalBurstProcess - currentProcess.getBurst());
+                    remanentProcess.setDisplayJobExecuted(currentProcess.getBurst() + remanentProcess.getBurst());
                     
                     criticalSection.addProcess(remanentProcess);
                     calculateProcess(currentProcess, criticalSection);

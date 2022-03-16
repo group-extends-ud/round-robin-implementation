@@ -34,6 +34,8 @@ public class Semaphore extends JPanel {
         g2d.setColor(isActive? Color.GREEN : Color.RED);
         g2d.fill(circleShape);
         g2d.draw(circleShape);
+        g2d.setColor(Color.BLACK);
+        g2d.draw(circleShape);
     }
     
 }

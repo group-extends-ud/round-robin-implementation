@@ -1,9 +1,10 @@
 package com.so.view.components;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableColumn;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.Dimension;
 
 public class TableRepresentation extends JPanel {
@@ -24,12 +25,14 @@ public class TableRepresentation extends JPanel {
         table = new JTable(information, columns);
         table.setSize(getWidth(), getHeight());
         table.setLocation(0, 0);
-        TableColumn column;
-        column = table.getColumnModel().getColumn(0);
-        column.setPreferredWidth(90);
-        table.setRowHeight(25);
-        JScrollPane jsp = new JScrollPane(table);
 
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        for(int column = 0; column < table.getColumnCount(); column++){
+            table.getColumnModel().getColumn(column).setCellRenderer(centerRenderer);
+        }
+        JScrollPane jsp = new JScrollPane(table);
         jsp.setSize(getWidth(), getHeight());
         jsp.setLocation(0, 0);
         jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);

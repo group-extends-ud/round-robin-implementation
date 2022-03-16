@@ -21,6 +21,10 @@ public class ModalController {
                 process.setIncommingTime(Integer.valueOf(modalView.getCommingTime()));
                 process.setBurst(Integer.valueOf(modalView.getBurstTime()));
                 criticalSection.addProcess(process);
+
+                RenderController.getRenderController().notifyRender();
+
+                modalView.dispose();
             }catch(NumberFormatException err){
                 modalView.notifyError("Asegurese de ingresar numeros");
             }

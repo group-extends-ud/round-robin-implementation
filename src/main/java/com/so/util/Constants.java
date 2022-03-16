@@ -6,5 +6,7 @@ public class Constants {
         "Nombre","Tiempo de llegada","Rafaga","Ejecutado",
         "T.comienzo","T.final","T Retorno","Espera"
     };
+
+    public static final Integer quantum = 4;
     
 }

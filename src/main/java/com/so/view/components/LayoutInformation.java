@@ -2,6 +2,7 @@ package com.so.view.components;
 
 import javax.swing.JPanel;
 import com.so.util.Constants;
+import com.so.controller.RenderController;
 import com.so.model.context.RenderSuscriber;
 
 public class LayoutInformation extends JPanel implements RenderSuscriber{
@@ -20,6 +21,8 @@ public class LayoutInformation extends JPanel implements RenderSuscriber{
         setLayout(null);
         setSize(width,height);
         initComponents();
+
+        RenderController.getRenderController().addSubscriptor(this);
     }
 
     @Override

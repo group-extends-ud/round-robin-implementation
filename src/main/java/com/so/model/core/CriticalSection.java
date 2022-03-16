@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class CriticalSection {
 
     private List<Process> queueProcess;
+    private Process currentProcess;
     private static CriticalSection instance;
 
     private CriticalSection(){
@@ -24,8 +25,26 @@ public class CriticalSection {
         return queueProcess;
     }
 
+    public Process getCurrentProcess(){
+        System.out.println(currentProcess);
+        return currentProcess;
+    }
+
+    public Boolean isQueueEmptyBoolean() {
+        return queueProcess.isEmpty();
+    }
+
     public void addProcess(Process process){
         queueProcess.add(process);
+    }
+
+    public void setProcessInCriticalSection() {
+        System.out.println(queueProcess);
+        try {
+            currentProcess = queueProcess.remove(0);
+        } catch (Exception e) {
+            System.out.println("No hay procesos en la cola");
+        }
     }
 
 }

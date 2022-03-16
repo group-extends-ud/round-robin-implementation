@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.Font;
 
+import com.so.controller.AlgorithmController;
+import com.so.model.algorithm.AlgorithmResolver;
+import com.so.model.algorithm.impl.RoundRobinResolver;
 import com.so.view.page.Modal;
 
 public class ControlPanel extends JPanel {
@@ -14,10 +17,15 @@ public class ControlPanel extends JPanel {
     private JButton btnAddProcess;
     private JPanel semaphore;
 
+    private AlgorithmResolver resolver;
+
 
     private void initListeners() {
         btnStartProcess.addActionListener((e) -> {
-           
+           resolver = new RoundRobinResolver();
+
+           AlgorithmController.getAlgorithmController().createThread(resolver);
+
         });
         
         btnAddProcess.addActionListener((e) -> {

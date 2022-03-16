@@ -29,7 +29,6 @@ public class Menu extends JFrame {
         setTitle("Round Robin");
         setSize(screenSize);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
         initComponents();
         setLocationRelativeTo(null);
         setVisible(true);

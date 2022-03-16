@@ -1,5 +1,6 @@
-package com.so.view;
+package com.so.view.components;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -15,6 +16,7 @@ public class Semaphore extends JPanel {
     public Semaphore(int width, int height) {
         setLayout(null);
         setSize(width, height);
+        this.setBorder(BorderFactory.createLineBorder(Color.red));
     }
 
     public void setIsActive(boolean isActive){

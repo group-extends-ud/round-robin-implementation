@@ -1,4 +1,4 @@
-package com.so.view;
+package com.so.view.components;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,7 +44,7 @@ public class TableRepresentation extends JPanel {
         initComponents();
     }
 
-    public void setInformation(String[][] information){
+    public void updateInformation(String[][] information){
         this.information = information;
         this.removeAll();
         this.initTemplate();

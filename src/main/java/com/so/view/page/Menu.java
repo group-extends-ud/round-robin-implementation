@@ -1,9 +1,12 @@
-package com.so.view;
+package com.so.view.page;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Toolkit;
 import java.awt.Dimension;
+
+import com.so.view.components.ControlPanel;
+import com.so.view.components.LayoutInformation;
 
 public class Menu extends JFrame {
 

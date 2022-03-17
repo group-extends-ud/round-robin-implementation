@@ -9,6 +9,8 @@ public class AlgorithmController {
 
     private static AlgorithmController algorithmController;
     private Thread algorithmThread;
+    
+    private Boolean runningStatus = false;
 
     private AlgorithmController() {}
 
@@ -26,6 +28,18 @@ public class AlgorithmController {
     public void createMainThread(AlgorithmResolver algorithmResolver) {
         algorithmThread = new AlgorithmThread(algorithmResolver);
         algorithmThread.start();
+    }
+    
+    public Boolean isRunning() {
+        return runningStatus;
+    }
+    
+    public void startSemaphore() {
+        runningStatus = true;
+    }
+    
+    public void stopSemaphore() {
+        runningStatus = false;
     }
 
 }

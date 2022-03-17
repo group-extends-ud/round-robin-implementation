@@ -35,8 +35,10 @@ public class RoundRobinResolver extends AlgorithmResolver {
                                     currentProcess.getName(), "-"));
                         }
                         Util.calculateProcess(currentProcess, criticalSection);
+                        AlgorithmController.getAlgorithmController().stopSemaphore();
                     } else {
                         currentProcess.setExecutedTime(currentProcess.getExecutedTime() + 1);
+                        AlgorithmController.getAlgorithmController().startSemaphore();
                     }
                     Thread.sleep(1000);
                     RenderController.getRenderController().notifyRender();

@@ -16,6 +16,7 @@ public class Process {
     private Integer waitingTime;
 
     //Variables extra
+    private Integer lockedTime = 0;
     private Integer executedTime;
     private Integer displayJobExecuted = null;
     private Integer counterSubProcess = 0;

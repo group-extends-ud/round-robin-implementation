@@ -25,8 +25,12 @@ public class ControlPanel extends JPanel {
         btnStartProcess.addActionListener((e) -> {
            resolver = new RoundRobinResolver();
 
-           AlgorithmController.getAlgorithmController().createThread(resolver);
+           AlgorithmController.getAlgorithmController().createMainThread(resolver);
 
+        });
+
+        btnBlockProcess.addActionListener((e) -> {
+            AlgorithmController.getAlgorithmController().getThread().interrupt();
         });
         
         btnAddProcess.addActionListener((e) -> {

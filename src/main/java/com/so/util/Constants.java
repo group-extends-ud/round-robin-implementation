@@ -8,5 +8,6 @@ public class Constants {
     };
 
     public static final Integer quantum = 4;
+    public static final Integer lockingTime = 4;
     
 }

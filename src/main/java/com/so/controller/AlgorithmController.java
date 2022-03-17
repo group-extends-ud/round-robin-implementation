@@ -8,7 +8,7 @@ import com.so.model.algorithm.AlgorithmResolver;
 public class AlgorithmController {
 
     private static AlgorithmController algorithmController;
-    private Thread thread;
+    private Thread algorithmThread;
 
     private AlgorithmController() {}
 
@@ -20,12 +20,12 @@ public class AlgorithmController {
     }
 
     public Thread getThread() {
-        return thread;
+        return algorithmThread;
     }
 
-    public void createThread(AlgorithmResolver algorithmResolver) {
-        thread = new AlgorithmThread(algorithmResolver);
-        thread.start();
+    public void createMainThread(AlgorithmResolver algorithmResolver) {
+        algorithmThread = new AlgorithmThread(algorithmResolver);
+        algorithmThread.start();
     }
 
 }

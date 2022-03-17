@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
-public class Semaphore extends JPanel {
+public class Semaphore extends JPanel{
 
     private boolean isActive = true;
 

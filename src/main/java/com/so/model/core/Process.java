@@ -20,5 +20,6 @@ public class Process {
     private Integer executedTime;
     private Integer displayJobExecuted = null;
     private Integer counterSubProcess = 0;
+    private Process parentProcess;
 
 }

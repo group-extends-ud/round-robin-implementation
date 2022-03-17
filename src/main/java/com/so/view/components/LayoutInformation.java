@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import com.so.util.Constants;
 import com.so.controller.RenderController;
 import com.so.model.context.RenderSuscriber;
+import com.so.util.Util;
 
 public class LayoutInformation extends JPanel implements RenderSuscriber{
 
@@ -33,8 +34,8 @@ public class LayoutInformation extends JPanel implements RenderSuscriber{
     }
 
     @Override
-    public void renderProcess(String[][] data) {
-        processTable.updateInformation(data);
+    public void renderProcess() {
+        processTable.updateInformation(Util.getProcessListData());
         gantDiagram = diagramController.getGrafica();
         repaint();
     }

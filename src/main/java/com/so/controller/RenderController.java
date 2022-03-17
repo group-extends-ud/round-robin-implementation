@@ -19,7 +19,7 @@ public class RenderController {
     }
 
     public void notifyRender() {
-        subscriptors.forEach(subscriptor -> subscriptor.renderProcess(Util.getProcessListData()));
+        subscriptors.forEach(subscriptor -> subscriptor.renderProcess());
     }
 
     public void addSubscriptor(RenderSuscriber subscriptor) {
@@ -30,7 +30,7 @@ public class RenderController {
         String[][] data = Util.getProcessListData();
         diagramController.removeAllElements();
         for (int i = 0; i < data.length; i++) {
-            diagramController.addProcess(data[i][0], Integer.valueOf(data[i][3]), Integer.valueOf(data[i][4]));
+            diagramController.addProcess(data[i][0], Integer.valueOf(data[i][4]), Integer.valueOf(data[i][5]));
         }
         notifyRender();
     }

@@ -2,6 +2,6 @@ package com.so.model.context;
 
 public interface RenderSuscriber {
 
-    public void renderProcess(String[][] data);
+    public void renderProcess();
     
 }

@@ -14,6 +14,10 @@ public class Process {
     private Integer endTime;
     private Integer turnaroundTime;
     private Integer waitingTime;
+
+    //Variables extra
+    private Integer executedTime;
     private Integer displayJobExecuted = null;
+    private Integer counterSubProcess = 0;
 
 }

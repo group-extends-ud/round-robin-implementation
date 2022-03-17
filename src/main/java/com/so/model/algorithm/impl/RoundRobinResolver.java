@@ -44,29 +44,29 @@ public class RoundRobinResolver extends AlgorithmResolver {
                 criticalSection.setProcessInCriticalSection();
                 currentProcess = criticalSection.getCurrentProcess();
 
-                if (currentProcess.getBurst() <= Constants.quantum) {
-                    calculateProcess(currentProcess, criticalSection);
-                } else {
-                    Process remanentProcess = new Process();
-                    remanentProcess.setName(currentProcess.getName()+"*");
-                    remanentProcess.setIncommingTime(currentProcess.getIncommingTime());
-
-                    Integer totalBurstProcess = currentProcess.getBurst();
-                    currentProcess.setBurst(Constants.quantum);
-                    remanentProcess.setBurst(Math.abs(Constants.quantum - totalBurstProcess));
-                    //remanentProcess.setBurst(totalBurstProcess - currentProcess.getBurst());
-                    remanentProcess.setDisplayJobExecuted(currentProcess.getBurst() + remanentProcess.getBurst());
-                    
-                    criticalSection.addProcess(remanentProcess);
-                    calculateProcess(currentProcess, criticalSection);
+                if(currentProcess.getExecutedTime() == currentProcess.getBurst()){
+                    if (currentProcess.getBurst() <= Constants.quantum) {
+                        calculateProcess(currentProcess, criticalSection);
+                    } else {
+                        Process remanentProcess = new Process();
+                        remanentProcess.setCounterSubProcess(remanentProcess.getCounterSubProcess()+1);
+                        remanentProcess.setName(currentProcess.getName()+"#"+currentProcess.getCounterSubProcess());
+                        remanentProcess.setIncommingTime(currentProcess.getIncommingTime());
+    
+                        Integer totalBurstProcess = currentProcess.getBurst();
+                        currentProcess.setBurst(Constants.quantum);
+                        remanentProcess.setBurst(Math.abs(Constants.quantum - totalBurstProcess));
+                        remanentProcess.setExecutedTime(remanentProcess.getBurst());
+                        remanentProcess.setDisplayJobExecuted(currentProcess.getBurst() + remanentProcess.getBurst());
+                        
+                        criticalSection.addProcess(remanentProcess);
+                        calculateProcess(currentProcess, criticalSection);
+                    }
+                }else{
+                    currentProcess.setExecutedTime(currentProcess.getExecutedTime() + 1);
                 }
-                /**
-                 * Aca se hace toda la logica
-                 */
-                System.out.println(currentProcess);
                 Thread.sleep(1000);
                 RenderController.getRenderController().notifyRender();
-
             } while (criticalSection.getIndexCurrentProcess() < criticalSection.getQueueProcess().size());
         } catch (InterruptedException e) {
             e.printStackTrace();

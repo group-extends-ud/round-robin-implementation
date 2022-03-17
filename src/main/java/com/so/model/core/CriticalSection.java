@@ -27,7 +27,6 @@ public class CriticalSection {
     }
 
     public Process getCurrentProcess(){
-        System.out.println(currentProcess);
         return currentProcess;
     }
 

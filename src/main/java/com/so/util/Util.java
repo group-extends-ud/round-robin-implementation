@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.so.model.core.CriticalSection;
 import com.so.model.core.Process;
+import javax.swing.JOptionPane;
 
 public class Util {
 
@@ -17,11 +18,11 @@ public class Util {
             response[i][0] = process.getName();
             response[i][1] = String.valueOf(process.getIncommingTime());
             response[i][2] = String.valueOf(process.getBurst());
-            response[i][3] = String.valueOf(process.getExecutedTime());
-            response[i][4] = String.valueOf(process.getStartTime());
-            response[i][5] = String.valueOf(process.getEndTime());
-            response[i][6] = String.valueOf(process.getTurnaroundTime());
-            response[i][7] = String.valueOf(process.getWaitingTime());
+            //response[i][3] = String.valueOf(process.getExecutedTime());
+            response[i][3] = String.valueOf(process.getStartTime());
+            response[i][4] = String.valueOf(process.getEndTime());
+            response[i][5] = String.valueOf(process.getTurnaroundTime());
+            response[i][6] = String.valueOf(process.getWaitingTime());
         }
         return response;
     }
@@ -41,8 +42,8 @@ public class Util {
     public static void calculateProcess(Process currentProcess, CriticalSection criticalSection) {
         currentProcess.setStartTime(
                 (criticalSection.getIndexCurrentProcess() == 0) ? 0
-                        : criticalSection.getQueueProcess().get(criticalSection.getIndexCurrentProcess() - 1)
-                                .getEndTime());
+                : criticalSection.getQueueProcess().get(criticalSection.getIndexCurrentProcess() - 1)
+                        .getEndTime());
         currentProcess.setEndTime(currentProcess.getStartTime() + currentProcess.getBurst() + currentProcess.getLockedTime());
         currentProcess.setTurnaroundTime(currentProcess.getEndTime() - currentProcess.getIncommingTime());
 
@@ -72,6 +73,10 @@ public class Util {
 
     public static Process generateRemanentProcess(Process currentProcess, CriticalSection criticalSection, String name) {
         return generateRemanentProcess(currentProcess, criticalSection, name, Constants.quantum);
+    }
+
+    public static void notifyError(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }

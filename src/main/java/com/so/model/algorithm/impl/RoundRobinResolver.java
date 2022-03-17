@@ -7,6 +7,7 @@ import com.so.model.core.CriticalSection;
 import com.so.model.core.Process;
 import com.so.util.Constants;
 import com.so.util.Util;
+import java.util.Objects;
 
 public class RoundRobinResolver extends AlgorithmResolver {
 
@@ -27,19 +28,28 @@ public class RoundRobinResolver extends AlgorithmResolver {
                 criticalSection.setProcessInCriticalSection();
                 currentProcess = criticalSection.getCurrentProcess();
 
-                if (currentProcess.getExecutedTime() == currentProcess.getBurst()) {
-                    if (currentProcess.getBurst() > Constants.quantum) {
-                        Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s#%d",
-                                currentProcess.getName(), currentProcess.getCounterSubProcess() + 1));
+                if (Objects.nonNull(currentProcess)) {
+                    if (currentProcess.getExecutedTime() == currentProcess.getBurst()) {
+                        if (currentProcess.getBurst() > Constants.quantum) {
+                            Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
+                                    currentProcess.getName(), "-"));
+                        }
+                        Util.calculateProcess(currentProcess, criticalSection);
+                    } else {
+                        currentProcess.setExecutedTime(currentProcess.getExecutedTime() + 1);
                     }
-                    Util.calculateProcess(currentProcess, criticalSection);
-                } else {
-                    currentProcess.setExecutedTime(currentProcess.getExecutedTime() + 1);
+                    Thread.sleep(1000);
+                    RenderController.getRenderController().notifyRender();
+                }else{
+                    Util.notifyError("Asegurese de que se haya ingresado almenos un proceso");
                 }
-                Thread.sleep(1000);
-                RenderController.getRenderController().notifyRender();
+
             } while (criticalSection.getIndexCurrentProcess() < criticalSection.getQueueProcess().size());
+
+            RenderController.getRenderController().renderGantDiagram();
+
         } catch (InterruptedException e) {
+
             final Process currentProcess = CriticalSection.getInstance().getCurrentProcess();
             if (currentProcess.getBurst() != currentProcess.getExecutedTime()) {
                 final Process remanentProcess = Util.generateRemanentProcess(currentProcess, CriticalSection.getInstance(),

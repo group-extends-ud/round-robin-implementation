@@ -27,10 +27,10 @@ public class ModalController {
                     RenderController.getRenderController().notifyRender();
                     modalView.dispose();
                 }else{
-                    modalView.notifyError("Asegurese de que el tiempo de llegada sea mayor o igual");
+                    Util.notifyError("Asegurese de que el tiempo de llegada sea mayor o igual");
                 }
             } catch (NumberFormatException err) {
-                modalView.notifyError("Asegurese de ingresar numeros");
+                Util.notifyError("Asegurese de ingresar numeros");
             }
         });
     }

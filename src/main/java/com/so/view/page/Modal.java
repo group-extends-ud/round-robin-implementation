@@ -88,10 +88,6 @@ public class Modal extends JFrame{
         modalController.initListenrs();
     }
 
-    public void notifyError(String message){
-        JOptionPane.showMessageDialog(null, message,"Error",JOptionPane.ERROR_MESSAGE);
-    }
-
     public void initTemplate(int width,int height){
         setTitle("Agregar Proceso");
         setSize(new Dimension(width,height));

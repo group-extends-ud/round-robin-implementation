@@ -6,9 +6,11 @@ import javax.swing.JButton;
 import java.awt.Font;
 
 import com.so.controller.AlgorithmController;
+import com.so.helper.AlgorithmFactory;
 import com.so.model.algorithm.AlgorithmResolver;
 import com.so.model.algorithm.impl.RoundRobinResolver;
 import com.so.view.page.Modal;
+import javax.swing.JComboBox;
 
 public class ControlPanel extends JPanel {
 
@@ -16,12 +18,13 @@ public class ControlPanel extends JPanel {
     private JButton btnAddProcess;
     private JButton btnBlockProcess;
     private JPanel semaphore;
+    private JComboBox<String> algorithmOptions;
 
     private AlgorithmResolver resolver;
 
     private void initListeners() {
         btnStartProcess.addActionListener((e) -> {
-            resolver = new RoundRobinResolver();
+            resolver = AlgorithmFactory.buildAlgorithm(String.valueOf(algorithmOptions.getSelectedItem()));
             AlgorithmController.getAlgorithmController().createMainThread(resolver);
         });
 
@@ -61,6 +64,13 @@ public class ControlPanel extends JPanel {
         semaphore = new Semaphore(200, 200);
         semaphore.setLocation((getWidth() - semaphore.getWidth()) / 2, (int) (getHeight() * 0.05));
         add(semaphore);
+        
+        final String[] algorithms = {"RoundRobinResolver", "ShortRemainingTimeNextResolver"};
+        
+        algorithmOptions = new AlgorihmSelector(algorithms);
+        algorithmOptions.setSize(200, 100);
+        algorithmOptions.setLocation((getWidth() - algorithmOptions.getWidth()) / 2, (int) (getHeight() * 0.6));
+        add(algorithmOptions);
     }
 
     public ControlPanel(int width, int height) {

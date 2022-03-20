@@ -11,8 +11,9 @@ import com.so.view.components.GantDiagram;
 public class RenderController {
 
     private static RenderController renderController;
-    private List<RenderSuscriber> subscriptors;
-    private GantDiagram diagramController = GantDiagram.getInstance();
+    private final List<RenderSuscriber> subscriptors;
+    private final GantDiagram diagramController = GantDiagram.getInstance();
+    private Boolean modifiable = true;
 
     private RenderController() {
         subscriptors = new ArrayList<>();
@@ -29,9 +30,18 @@ public class RenderController {
     public void renderGantDiagram() {
         String[][] data = Util.getProcessListData();
         diagramController.removeAllElements();
-        for (int i = 0; i < data.length; i++) {
-            diagramController.addProcess(data[i][0], Integer.valueOf(data[i][4]), Integer.valueOf(data[i][5]));
+        for (String[] data1 : data) {
+            diagramController.addProcess(data1[0], Integer.valueOf(data1[4]), Integer.valueOf(data1[5]));
         }
+        notifyRender();
+    }
+    
+    public Boolean isModifiable() {
+        return modifiable;
+    }
+    
+    public void setModifiable(Boolean modifiable) {
+        this.modifiable = modifiable;
         notifyRender();
     }
 

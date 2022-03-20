@@ -29,7 +29,7 @@ public class RoundRobinResolver extends AlgorithmResolver {
                 currentProcess = criticalSection.getCurrentProcess();
 
                 if (Objects.nonNull(currentProcess)) {
-                    if (currentProcess.getExecutedTime() == currentProcess.getBurst()) {
+                    if (Objects.equals(currentProcess.getExecutedTime(), currentProcess.getBurst())) {
                         if (currentProcess.getBurst() > Constants.quantum) {
                             Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
                                     currentProcess.getName(), "-"));
@@ -53,7 +53,7 @@ public class RoundRobinResolver extends AlgorithmResolver {
         } catch (InterruptedException e) {
 
             final Process currentProcess = CriticalSection.getInstance().getCurrentProcess();
-            if (currentProcess.getBurst() != currentProcess.getExecutedTime()) {
+            if (!Objects.equals(currentProcess.getBurst(), currentProcess.getExecutedTime())) {
                 final Process remanentProcess = Util.generateRemanentProcess(currentProcess, CriticalSection.getInstance(),
                         String.format("%s*", currentProcess.getName()), currentProcess.getExecutedTime());
 

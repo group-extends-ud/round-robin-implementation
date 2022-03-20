@@ -31,7 +31,6 @@ public class Semaphore extends JPanel implements RenderSuscriber {
 
     @Override
     public void paint(Graphics g) {
-        System.out.println("Pintando: " + isActive);
         Graphics2D g2d = (Graphics2D) g;
         Shape circleShape = new Ellipse2D.Double(0, 0, getWidth() - 10, getHeight() - 10);
         g2d.setColor(!isActive? Color.GREEN : Color.RED);

@@ -4,6 +4,6 @@ public abstract class AlgorithmResolver {
 
     protected abstract void orderProcessList();
     public abstract void lock();
-    public abstract void resolve();
+    public abstract void resolve() throws InterruptedException;
 
 }

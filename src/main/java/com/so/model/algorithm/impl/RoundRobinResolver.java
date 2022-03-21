@@ -20,48 +20,34 @@ public class RoundRobinResolver extends AlgorithmResolver {
     }
 
     @Override
-    public void resolve() {
-        try {
-            Process currentProcess;
-            CriticalSection criticalSection = CriticalSection.getInstance();
-            do {
-                criticalSection.setProcessInCriticalSection();
-                currentProcess = criticalSection.getCurrentProcess();
+    public void resolve() throws InterruptedException {
+        Process currentProcess;
+        CriticalSection criticalSection = CriticalSection.getInstance();
+        do {
+            criticalSection.setProcessInCriticalSection();
+            currentProcess = criticalSection.getCurrentProcess();
 
-                if (Objects.nonNull(currentProcess)) {
-                    if (Objects.equals(currentProcess.getExecutedTime(), currentProcess.getBurst())) {
-                        if (currentProcess.getBurst() > Constants.quantum) {
-                            Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
-                                    currentProcess.getName(), "-"));
-                        }
-                        Util.calculateProcess(currentProcess, criticalSection);
-                        AlgorithmController.getAlgorithmController().stopSemaphore();
-                    } else {
-                        currentProcess.setExecutedTime(currentProcess.getExecutedTime() + 1);
-                        AlgorithmController.getAlgorithmController().startSemaphore();
+            if (Objects.nonNull(currentProcess)) {
+                if (Objects.equals(currentProcess.getExecutedTime(), currentProcess.getBurst())) {
+                    if (currentProcess.getBurst() > Constants.quantum) {
+                        Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
+                                currentProcess.getName(), "-"));
                     }
-                    Thread.sleep(1000);
-                    RenderController.getRenderController().notifyRender();
-                }else{
-                    Util.notifyError("Asegurese de que se haya ingresado almenos un proceso");
+                    Util.calculateProcess(currentProcess, criticalSection);
+                    AlgorithmController.getAlgorithmController().stopSemaphore();
+                } else {
+                    currentProcess.setExecutedTime(currentProcess.getExecutedTime() + 1);
+                    AlgorithmController.getAlgorithmController().startSemaphore();
                 }
-
-            } while (criticalSection.getIndexCurrentProcess() < criticalSection.getQueueProcess().size());
-
-            RenderController.getRenderController().renderGantDiagram();
-
-        } catch (InterruptedException e) {
-
-            final Process currentProcess = CriticalSection.getInstance().getCurrentProcess();
-            if (!Objects.equals(currentProcess.getBurst(), currentProcess.getExecutedTime())) {
-                final Process remanentProcess = Util.generateRemanentProcess(currentProcess, CriticalSection.getInstance(),
-                        String.format("%s*", currentProcess.getName()), currentProcess.getExecutedTime());
-
-                remanentProcess.setLockedTime(Constants.lockingTime);
-                remanentProcess.setDisplayJobExecuted(remanentProcess.getBurst());
+                Thread.sleep(1000);
+                RenderController.getRenderController().notifyRender();
+            } else {
+                Util.notifyError("Asegurese de que se haya ingresado almenos un proceso");
             }
-            AlgorithmController.getAlgorithmController().createMainThread(this);
-        }
+
+        } while (criticalSection.getIndexCurrentProcess() < criticalSection.getQueueProcess().size());
+
+        RenderController.getRenderController().renderGantDiagram();
     }
 
 }

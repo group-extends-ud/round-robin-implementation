@@ -17,13 +17,8 @@ import javax.swing.JComboBox;
  */
 public class AlgorihmSelector extends JComboBox<String> implements RenderSuscriber {
     
-    private final ItemListener eventHandler = (ItemEvent item) -> {
-        System.out.println(item.getItem());
-    };
-    
     AlgorihmSelector(String[] items) {
         super(items);
-        this.addItemListener(eventHandler);
         RenderController.getRenderController().addSubscriptor(this);
     }
 

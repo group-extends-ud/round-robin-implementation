@@ -50,6 +50,8 @@ public class Util {
         Integer burstExecuted = (Objects.isNull(currentProcess.getDisplayJobExecuted()))
                 ? currentProcess.getBurst()
                 : currentProcess.getDisplayJobExecuted();
+        
+        currentProcess.setCalculated(Boolean.TRUE);
 
         currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - burstExecuted);
         criticalSection.setIndexCurrentProcess(criticalSection.getIndexCurrentProcess() + 1);

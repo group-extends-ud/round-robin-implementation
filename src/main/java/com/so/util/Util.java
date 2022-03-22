@@ -39,18 +39,37 @@ public class Util {
         return maxElement;
     }
 
+    public static Process getLastProcessExecuted(List<Process> list) {
+        Integer highestEndTime = 0;
+        Process highestEndTimeProcess = list.get(0);
+
+        for (Process process : list) {
+            if (process.getCalculated()) {
+                if (process.getEndTime() > highestEndTime) {
+                    highestEndTime = process.getEndTime();
+                    highestEndTimeProcess = process;
+                }
+            }
+        }
+
+        return highestEndTimeProcess;
+    }
+
     public static void calculateProcess(Process currentProcess, CriticalSection criticalSection) {
-        currentProcess.setStartTime(
-                (criticalSection.getIndexCurrentProcess() == 0) ? 0
-                : criticalSection.getQueueProcess().get(criticalSection.getIndexCurrentProcess() - 1)
-                        .getEndTime());
+        Process lastProcessExecuted = getLastProcessExecuted(criticalSection.getQueueProcess());
+        
+        currentProcess.setStartTime((Objects.nonNull(lastProcessExecuted.getEndTime()))
+                ? lastProcessExecuted.getEndTime()
+                : currentProcess.getIncommingTime()
+        );
+        
         currentProcess.setEndTime(currentProcess.getStartTime() + currentProcess.getBurst() + currentProcess.getLockedTime());
         currentProcess.setTurnaroundTime(currentProcess.getEndTime() - currentProcess.getIncommingTime());
 
         Integer burstExecuted = (Objects.isNull(currentProcess.getDisplayJobExecuted()))
                 ? currentProcess.getBurst()
                 : currentProcess.getDisplayJobExecuted();
-        
+
         currentProcess.setCalculated(Boolean.TRUE);
 
         currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - burstExecuted);

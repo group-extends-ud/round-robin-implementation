@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.so.model.algorithm.impl;
 
 import com.so.controller.AlgorithmController;
@@ -9,9 +5,7 @@ import com.so.controller.RenderController;
 import com.so.model.algorithm.AlgorithmResolver;
 import com.so.model.core.CriticalSection;
 import com.so.model.core.Process;
-import com.so.util.Constants;
 import com.so.util.Util;
-import java.util.List;
 import java.util.Objects;
 
 /**

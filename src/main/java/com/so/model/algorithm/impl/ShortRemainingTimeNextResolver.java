@@ -32,7 +32,7 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
     private Integer findAlternativeProcess() {
         Process currentProcess = criticalSection.getCurrentProcess();
         Integer indexToReturn = -1;
-        final Integer currentProcessIndex = criticalSection.getIndexCurrentProcess();
+        final Integer currentProcessIndex = criticalSection.getIndexCurrentProcess(currentProcess);
         for (int i = 0; i < currentProcessIndex; ++i) {
             final Process process = criticalSection.getQueueProcess().get(i);
             if (!process.getCalculated()) {

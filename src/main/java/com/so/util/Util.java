@@ -77,6 +77,8 @@ public class Util {
             if(!criticalSection.getQueueProcess().get(i).getCalculated()) {
                 criticalSection.setIndexCurrentProcess(i);
                 break;
+            } else {
+                criticalSection.setIndexCurrentProcess(criticalSection.getQueueProcess().size() + 1);
             }
         }
         criticalSection.setProcessInCriticalSection();

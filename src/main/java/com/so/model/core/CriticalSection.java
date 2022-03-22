@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class CriticalSection {
 
-    private List<Process> queueProcess;
+    private final List<Process> queueProcess;
     private Process currentProcess;
     private static CriticalSection instance;
     private Integer indexCurrentProcess = 0;
@@ -39,6 +39,10 @@ public class CriticalSection {
     }
 
     public Integer getIndexCurrentProcess(){
+        return indexCurrentProcess;
+    }
+    
+    public Integer getIndexCurrentProcess(Process currentProcess){
         return queueProcess.indexOf(currentProcess);
     }
 

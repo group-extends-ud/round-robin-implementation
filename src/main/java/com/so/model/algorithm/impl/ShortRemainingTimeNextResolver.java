@@ -29,8 +29,9 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
         });
     }
 
-    private void findAlternativeProcess() {
+    private Integer findAlternativeProcess() {
         Process currentProcess = criticalSection.getCurrentProcess();
+        Integer indexToReturn = -1;
         final Integer currentProcessIndex = criticalSection.getIndexCurrentProcess();
         for (int i = 0; i < currentProcessIndex; ++i) {
             final Process process = criticalSection.getQueueProcess().get(i);
@@ -39,12 +40,12 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
                     if (process.getBurst() < currentProcess.getBurst()) {
                         Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
                                 currentProcess.getName(), "-"), currentProcess.getExecutedTime());
-                        Util.calculateProcess(currentProcess, criticalSection);
-                        criticalSection.setIndexCurrentProcess(i);
+                        indexToReturn = i;
                     }
                 }
             }
         }
+        return indexToReturn;
     }
 
     @Override
@@ -56,14 +57,19 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
         Process currentProcess;
         orderProcessList();
         criticalSection.setProcessInCriticalSection();
+        Integer alternativeIndex;
         do {
             orderProcessList();
             currentProcess = criticalSection.getCurrentProcess();
 
             if (Objects.nonNull(currentProcess)) {
-                findAlternativeProcess();
+                alternativeIndex = findAlternativeProcess();
                 if (Objects.equals(currentProcess.getExecutedTime(), currentProcess.getBurst())) {
                     Util.calculateProcess(currentProcess, criticalSection);
+                    if(!Objects.equals(alternativeIndex, -1)) {
+                        criticalSection.setIndexCurrentProcess(alternativeIndex);
+                        criticalSection.setProcessInCriticalSection();
+                    }
                     AlgorithmController.getAlgorithmController().stopSemaphore();
                 } else {
                     currentProcess.setExecutedTime(currentProcess.getExecutedTime() + 1);

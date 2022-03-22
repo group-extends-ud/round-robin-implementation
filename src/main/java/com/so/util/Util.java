@@ -73,7 +73,12 @@ public class Util {
         currentProcess.setCalculated(Boolean.TRUE);
 
         currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - burstExecuted);
-        criticalSection.setIndexCurrentProcess(criticalSection.getIndexCurrentProcess() + 1);
+        for(int i = 0; i < criticalSection.getQueueProcess().size(); ++i) {
+            if(!criticalSection.getQueueProcess().get(i).getCalculated()) {
+                criticalSection.setIndexCurrentProcess(i);
+                break;
+            }
+        }
         criticalSection.setProcessInCriticalSection();
     }
 

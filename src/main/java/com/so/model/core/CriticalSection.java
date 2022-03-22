@@ -39,7 +39,7 @@ public class CriticalSection {
     }
 
     public Integer getIndexCurrentProcess(){
-        return indexCurrentProcess;
+        return queueProcess.indexOf(currentProcess);
     }
 
     public void addProcess(Process process){

@@ -54,9 +54,10 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
     @Override
     public void resolve() throws InterruptedException {
         Process currentProcess;
+        orderProcessList();
+        criticalSection.setProcessInCriticalSection();
         do {
             orderProcessList();
-            criticalSection.setProcessInCriticalSection();
             currentProcess = criticalSection.getCurrentProcess();
 
             if (Objects.nonNull(currentProcess)) {

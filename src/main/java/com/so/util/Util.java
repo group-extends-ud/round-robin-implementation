@@ -74,6 +74,7 @@ public class Util {
 
         currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - burstExecuted);
         criticalSection.setIndexCurrentProcess(criticalSection.getIndexCurrentProcess() + 1);
+        criticalSection.setProcessInCriticalSection();
     }
 
     public static Process generateRemanentProcess(Process currentProcess, CriticalSection criticalSection, String name, Integer burst) {

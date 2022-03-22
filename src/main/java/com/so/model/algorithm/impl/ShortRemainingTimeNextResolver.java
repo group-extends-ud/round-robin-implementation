@@ -24,7 +24,15 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
             } else if (a.getIncommingTime() > b.getIncommingTime()) {
                 return 1;
             } else {
-                return a.getBurst() - b.getBurst();
+                if(a.getCalculated() && !b.getCalculated()) {
+                    return -1;
+                } else if(!a.getCalculated() && b.getCalculated()) {
+                    return 1;
+                } else if(a.getCalculated() && b.getCalculated()) {
+                    return 0;
+                } else {
+                    return a.getBurst() - b.getBurst();
+                }
             }
         });
     }
@@ -37,7 +45,7 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
             final Process process = criticalSection.getQueueProcess().get(i);
             if (!process.getCalculated()) {
                 if (Objects.equals(process.getIncommingTime(), currentProcess.getIncommingTime())) {
-                    if (process.getBurst() < currentProcess.getBurst()) {
+                    if (process.getBurst() < currentProcess.getBurst() - currentProcess.getExecutedTime()) {
                         Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
                                 currentProcess.getName(), "-"), currentProcess.getExecutedTime());
                         indexToReturn = i;

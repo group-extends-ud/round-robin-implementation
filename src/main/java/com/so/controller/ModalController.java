@@ -29,7 +29,10 @@ public class ModalController {
     public void initListenrs() {
         modalView.getBtnAddProcess().addActionListener((e) -> {
             try {
-                if (Integer.valueOf(modalView.getCommingTime()) >= Util.getMaxIncommingTime()) {
+                final Process currentProcess = CriticalSection.getInstance().getCurrentProcess();
+                final Integer executed = Objects.nonNull(currentProcess)? currentProcess.getExecutedTime() : 0;
+                final Integer incommingTime = Integer.valueOf(modalView.getCommingTime());
+                if (incommingTime >= Util.getMaxIncommingTime() && incommingTime >= Util.getMaxEndTime() + executed) {
                     CriticalSection criticalSection = CriticalSection.getInstance();
                     createProcess(criticalSection);
                 } else {

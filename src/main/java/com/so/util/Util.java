@@ -38,6 +38,12 @@ public class Util {
         }
         return maxElement;
     }
+    
+    public static Integer getMaxEndTime() {
+        final Process lastProcess = getLastProcessExecuted(CriticalSection.getInstance().getQueueProcess());
+        
+        return Objects.nonNull(lastProcess) && lastProcess.getCalculated()? lastProcess.getEndTime() : 0;
+    }
 
     public static Process getLastProcessExecuted(List<Process> list) {
         try {
@@ -62,10 +68,11 @@ public class Util {
     public static void calculateProcess(Process currentProcess, CriticalSection criticalSection) {
         Process lastProcessExecuted = getLastProcessExecuted(criticalSection.getQueueProcess());
 
-        currentProcess.setStartTime((Objects.nonNull(lastProcessExecuted.getEndTime()))
-                ? lastProcessExecuted.getEndTime()
-                : currentProcess.getIncommingTime()
-        );
+        if(lastProcessExecuted.getCalculated()) {
+            currentProcess.setStartTime(Math.max(lastProcessExecuted.getEndTime(), currentProcess.getIncommingTime()));
+        } else {
+            currentProcess.setStartTime(currentProcess.getIncommingTime());
+        }
 
         currentProcess.setEndTime(currentProcess.getStartTime() + currentProcess.getBurst() + currentProcess.getLockedTime());
         currentProcess.setTurnaroundTime(currentProcess.getEndTime() - currentProcess.getIncommingTime());

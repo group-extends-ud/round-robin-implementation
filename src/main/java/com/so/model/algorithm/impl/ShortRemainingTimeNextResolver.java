@@ -6,6 +6,7 @@ import com.so.model.algorithm.AlgorithmResolver;
 import com.so.model.core.CriticalSection;
 import com.so.model.core.Process;
 import com.so.util.Util;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,11 +25,11 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
             } else if (a.getIncommingTime() > b.getIncommingTime()) {
                 return 1;
             } else {
-                if(a.getCalculated() && !b.getCalculated()) {
+                if (a.getCalculated() && !b.getCalculated()) {
                     return -1;
-                } else if(!a.getCalculated() && b.getCalculated()) {
+                } else if (!a.getCalculated() && b.getCalculated()) {
                     return 1;
-                } else if(a.getCalculated() && b.getCalculated()) {
+                } else if (a.getCalculated() && b.getCalculated()) {
                     return 0;
                 } else {
                     return a.getBurst() - b.getBurst();
@@ -36,27 +37,29 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
             }
         });
     }
-    
-    private Boolean verifyShortIncommingProcess(Process incommingProcess,Process currentProcess){
+
+    private Boolean verifyShortIncommingProcess(Process incommingProcess, Process currentProcess) {
         Process lasProcessTime = Util.getLastProcessExecuted(criticalSection.getQueueProcess());
         Boolean isValidInput = (Objects.nonNull(lasProcessTime) && lasProcessTime.getCalculated())
-                ? (incommingProcess.getIncommingTime() <= currentProcess.getExecutedTime() + lasProcessTime.getEndTime()) 
-                :true;
+                ? (incommingProcess.getIncommingTime() <= currentProcess.getExecutedTime() + lasProcessTime.getEndTime())
+                : incommingProcess.getIncommingTime() <= currentProcess.getExecutedTime() + currentProcess.getIncommingTime();
         return isValidInput;
-        
+
     }
 
     private Integer findAlternativeProcess() {
+        final List<Process> queueProcess = criticalSection.getQueueProcess();
         Process currentProcess = criticalSection.getCurrentProcess();
         Integer indexToReturn = -1;
-        final Integer currentProcessIndex = criticalSection.getIndexCurrentProcess(currentProcess);
-        for (int i = 0; i < currentProcessIndex; ++i) {
-            final Process process = criticalSection.getQueueProcess().get(i);
+        for (int i = 0; i < queueProcess.size(); ++i) {
+            final Process process = queueProcess.get(i);
             if (!process.getCalculated()) {
                 if (verifyShortIncommingProcess(process, currentProcess)) {
                     if (process.getBurst() < currentProcess.getBurst() - currentProcess.getExecutedTime()) {
-                        Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
-                                currentProcess.getName(), "-"), currentProcess.getExecutedTime());
+                        if (!Objects.equals(currentProcess.getExecutedTime(), 0)) {
+                            Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
+                                    currentProcess.getName(), "-"), currentProcess.getExecutedTime());
+                        }
                         indexToReturn = i;
                     }
                 }
@@ -76,16 +79,17 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
         criticalSection.setProcessInCriticalSection();
         Integer alternativeIndex;
         do {
-            orderProcessList();
             currentProcess = criticalSection.getCurrentProcess();
 
             if (Objects.nonNull(currentProcess)) {
                 alternativeIndex = findAlternativeProcess();
-                if (Objects.equals(currentProcess.getExecutedTime(), currentProcess.getBurst())) {
-                    Util.calculateProcess(currentProcess, criticalSection);
-                    if(!Objects.equals(alternativeIndex, -1)) {
+                if (!Objects.equals(alternativeIndex, -1) || Objects.equals(currentProcess.getExecutedTime(), currentProcess.getBurst())) {
+                    if (!Objects.equals(alternativeIndex, -1)) {
                         criticalSection.setIndexCurrentProcess(alternativeIndex);
                         criticalSection.setProcessInCriticalSection();
+                    }
+                    if (!Objects.equals(currentProcess.getExecutedTime(), 0)) {
+                        Util.calculateProcess(currentProcess, criticalSection);
                     }
                     AlgorithmController.getAlgorithmController().stopSemaphore();
                 } else {

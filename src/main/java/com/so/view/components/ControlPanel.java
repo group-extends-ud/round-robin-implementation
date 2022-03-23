@@ -8,7 +8,6 @@ import java.awt.Font;
 import com.so.controller.AlgorithmController;
 import com.so.helper.AlgorithmFactory;
 import com.so.model.algorithm.AlgorithmResolver;
-import com.so.model.algorithm.impl.RoundRobinResolver;
 import com.so.view.page.Modal;
 import javax.swing.JComboBox;
 

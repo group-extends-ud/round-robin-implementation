@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.so.view.components;
 
-import com.so.controller.AlgorithmController;
 import com.so.controller.RenderController;
 import com.so.model.context.RenderSuscriber;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import com.so.util.Constants;
+
 import javax.swing.JComboBox;
 
 /**
@@ -20,6 +15,9 @@ public class AlgorihmSelector extends JComboBox<String> implements RenderSuscrib
     AlgorihmSelector(String[] items) {
         super(items);
         RenderController.getRenderController().addSubscriptor(this);
+        addItemListener((event) -> {
+            Constants.Context.setCurrentAlgorithm(String.valueOf(event.getItem()));
+        });
     }
 
     @Override

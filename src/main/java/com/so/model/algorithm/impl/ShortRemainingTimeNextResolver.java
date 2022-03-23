@@ -36,6 +36,15 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
             }
         });
     }
+    
+    private Boolean verifyShortIncommingProcess(Process incommingProcess,Process currentProcess){
+        Process lasProcessTime = Util.getLastProcessExecuted(criticalSection.getQueueProcess());
+        Boolean isValidInput = (Objects.nonNull(lasProcessTime) && lasProcessTime.getCalculated())
+                ? (incommingProcess.getIncommingTime() <= currentProcess.getExecutedTime() + lasProcessTime.getEndTime()) 
+                :true;
+        return isValidInput;
+        
+    }
 
     private Integer findAlternativeProcess() {
         Process currentProcess = criticalSection.getCurrentProcess();
@@ -44,7 +53,7 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
         for (int i = 0; i < currentProcessIndex; ++i) {
             final Process process = criticalSection.getQueueProcess().get(i);
             if (!process.getCalculated()) {
-                if (Objects.equals(process.getIncommingTime(), currentProcess.getIncommingTime())) {
+                if (verifyShortIncommingProcess(process, currentProcess)) {
                     if (process.getBurst() < currentProcess.getBurst() - currentProcess.getExecutedTime()) {
                         Util.generateRemanentProcess(currentProcess, criticalSection, String.format("%s%s",
                                 currentProcess.getName(), "-"), currentProcess.getExecutedTime());

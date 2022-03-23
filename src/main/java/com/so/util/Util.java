@@ -40,29 +40,33 @@ public class Util {
     }
 
     public static Process getLastProcessExecuted(List<Process> list) {
-        Integer highestEndTime = 0;
-        Process highestEndTimeProcess = list.get(0);
+        try {
+            Integer highestEndTime = 0;
+            Process highestEndTimeProcess = list.get(0);
 
-        for (Process process : list) {
-            if (process.getCalculated()) {
-                if (process.getEndTime() > highestEndTime) {
-                    highestEndTime = process.getEndTime();
-                    highestEndTimeProcess = process;
+            for (Process process : list) {
+                if (process.getCalculated()) {
+                    if (process.getEndTime() > highestEndTime) {
+                        highestEndTime = process.getEndTime();
+                        highestEndTimeProcess = process;
+                    }
                 }
             }
+            return highestEndTimeProcess;
+        } catch (IndexOutOfBoundsException e) {
+            return null;
         }
 
-        return highestEndTimeProcess;
     }
 
     public static void calculateProcess(Process currentProcess, CriticalSection criticalSection) {
         Process lastProcessExecuted = getLastProcessExecuted(criticalSection.getQueueProcess());
-        
+
         currentProcess.setStartTime((Objects.nonNull(lastProcessExecuted.getEndTime()))
                 ? lastProcessExecuted.getEndTime()
                 : currentProcess.getIncommingTime()
         );
-        
+
         currentProcess.setEndTime(currentProcess.getStartTime() + currentProcess.getBurst() + currentProcess.getLockedTime());
         currentProcess.setTurnaroundTime(currentProcess.getEndTime() - currentProcess.getIncommingTime());
 
@@ -73,8 +77,8 @@ public class Util {
         currentProcess.setCalculated(Boolean.TRUE);
 
         currentProcess.setWaitingTime(currentProcess.getTurnaroundTime() - burstExecuted);
-        for(int i = 0; i < criticalSection.getQueueProcess().size(); ++i) {
-            if(!criticalSection.getQueueProcess().get(i).getCalculated()) {
+        for (int i = 0; i < criticalSection.getQueueProcess().size(); ++i) {
+            if (!criticalSection.getQueueProcess().get(i).getCalculated()) {
                 criticalSection.setIndexCurrentProcess(i);
                 break;
             } else {

@@ -6,7 +6,6 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import com.so.controller.ModalController;
 

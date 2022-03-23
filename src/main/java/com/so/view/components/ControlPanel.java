@@ -64,7 +64,7 @@ public class ControlPanel extends JPanel {
         semaphore.setLocation((getWidth() - semaphore.getWidth()) / 2, (int) (getHeight() * 0.05));
         add(semaphore);
         
-        final String[] algorithms = {"RoundRobinResolver", "ShortRemainingTimeNextResolver"};
+        final String[] algorithms = {"ShortRemainingTimeNextResolver","RoundRobinResolver"};
         
         algorithmOptions = new AlgorihmSelector(algorithms);
         algorithmOptions.setSize(200, 100);

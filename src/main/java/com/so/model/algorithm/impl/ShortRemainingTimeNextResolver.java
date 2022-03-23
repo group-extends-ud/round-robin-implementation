@@ -19,7 +19,7 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
 
     @Override
     protected void orderProcessList() {
-        criticalSection.getQueueProcess().sort((Process a, Process b) -> {
+        /*criticalSection.getQueueProcess().sort((Process a, Process b) -> {
             if (a.getIncommingTime() < b.getIncommingTime()) {
                 return -1;
             } else if (a.getIncommingTime() > b.getIncommingTime()) {
@@ -35,7 +35,7 @@ public class ShortRemainingTimeNextResolver extends AlgorithmResolver {
                     return a.getBurst() - b.getBurst();
                 }
             }
-        });
+        });*/
     }
 
     private Boolean verifyShortIncommingProcess(Process incommingProcess, Process currentProcess) {

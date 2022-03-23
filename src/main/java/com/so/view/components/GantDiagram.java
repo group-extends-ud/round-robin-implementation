@@ -10,9 +10,9 @@ import org.jfree.data.gantt.TaskSeriesCollection;
 
 public class GantDiagram {
 
-    private JFreeChart graficador;
-    private TaskSeriesCollection dataset;
-    private TaskSeries taskseries = new TaskSeries("");
+    private final JFreeChart graficador;
+    private final TaskSeriesCollection dataset;
+    private final TaskSeries taskseries = new TaskSeries("");
     private static GantDiagram instance;
 
     private GantDiagram() {

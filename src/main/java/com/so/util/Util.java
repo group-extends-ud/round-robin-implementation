@@ -104,7 +104,7 @@ public class Util {
         Integer totalBurstProcess = currentProcess.getBurst();
         currentProcess.setBurst(burst);
         remanentProcess.setBurst(Math.abs(currentProcess.getBurst() - totalBurstProcess));
-        remanentProcess.setExecutedTime(remanentProcess.getBurst());
+        remanentProcess.setExecutedTime(0);
         remanentProcess.setDisplayJobExecuted(currentProcess.getBurst() + remanentProcess.getBurst());
 
         criticalSection.addProcess(remanentProcess);
